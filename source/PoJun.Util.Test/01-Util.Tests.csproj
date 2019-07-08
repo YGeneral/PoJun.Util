@@ -1,0 +1,59 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>    
+    <TargetFramework>netcoreapp2.0</TargetFramework>    
+    <AssemblyName>PoJun.Util.Tests</AssemblyName>    
+    <RootNamespace>PoJun.Util.Tests</RootNamespace>    
+    <Description />    
+    <Authors>何镇汐;dotnetcore</Authors>    
+    <Company>何镇汐;dotnetcore</Company>    
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <OutputPath>..\..\output\test</OutputPath>
+    <DocumentationFile></DocumentationFile>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <OutputPath>..\..\output\test</OutputPath>
+    <DocumentationFile></DocumentationFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Castle.Core" Version="4.2.1" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.6.0-preview-20180109-01" />
+    <PackageReference Include="NSubstitute" Version="3.1.0" />
+    <PackageReference Include="System.Reflection.Primitives" Version="4.3.0" />
+    <PackageReference Include="xunit" Version="2.3.1" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.3.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\PoJun.Util.Applications\06-PoJun.Util.Applications.csproj" />
+    <ProjectReference Include="..\..\src\PoJun.Util.Datas\05-PoJun.Util.Datas.csproj" />
+    <ProjectReference Include="..\..\src\PoJun.Util.Events\04-PoJun.Util.Events.csproj" />
+    <ProjectReference Include="..\..\src\PoJun.Util.Logs\03-PoJun.Util.Logs.csproj" />
+    <ProjectReference Include="..\..\src\PoJun.Util.Security\02-PoJun.Util.Security.csproj" />
+    <ProjectReference Include="..\..\src\PoJun.Util\01-PoJun.Util.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="TestResource.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>TestResource.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="TestResource.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>TestResource.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Service Include="{82a7f48d-3b50-4b1e-b82e-3ada8210c358}" />
+  </ItemGroup>
+
+</Project>
