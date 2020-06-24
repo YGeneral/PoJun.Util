@@ -1,0 +1,112 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <AssemblyName>PoJun.Util</AssemblyName>
+    <PackageTags>util;applicationframework;dotnetcore;aspnetcore;</PackageTags>
+    <RootNamespace>PoJun.Util</RootNamespace>
+    <Copyright></Copyright>
+    <Description></Description>
+    <Product>PoJun.Util</Product>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Authors></Authors>
+    <Company></Company>
+    <AssemblyVersion>4.0.0.0</AssemblyVersion>
+    <FileVersion>4.0.0.0</FileVersion>
+    <Version>4.0.0</Version>  
+    <PackageIconUrl></PackageIconUrl>
+    <PackageId>PoJun.Util</PackageId>
+    <PackageLicenseUrl></PackageLicenseUrl>
+    <PackageProjectUrl></PackageProjectUrl>
+    <RepositoryUrl></RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageReleaseNotes>PoJun.Util应用框架以MIT开源发布，可随意使用</PackageReleaseNotes>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <OutputPath>bin\Release\</OutputPath>
+    <DocumentationFile>bin\Release\netstandard2.0\PoJun.Util.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <OutputPath>bin\Debug\</OutputPath>
+    <DocumentationFile>bin\Debug\netstandard2.0\PoJun.Util.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Applications\**" />
+    <Compile Remove="Aspects\**" />
+    <Compile Remove="Contexts\**" />
+    <Compile Remove="Dependency\**" />
+    <Compile Remove="Domains\**" />
+    <Compile Remove="Files\**" />
+    <Compile Remove="Logs\**" />
+    <Compile Remove="Randoms\**" />
+    <Compile Remove="Signatures\**" />
+    <Compile Remove="Validations\**" />
+    <EmbeddedResource Remove="Applications\**" />
+    <EmbeddedResource Remove="Aspects\**" />
+    <EmbeddedResource Remove="Contexts\**" />
+    <EmbeddedResource Remove="Dependency\**" />
+    <EmbeddedResource Remove="Domains\**" />
+    <EmbeddedResource Remove="Files\**" />
+    <EmbeddedResource Remove="Logs\**" />
+    <EmbeddedResource Remove="Randoms\**" />
+    <EmbeddedResource Remove="Signatures\**" />
+    <EmbeddedResource Remove="Validations\**" />
+    <None Remove="Applications\**" />
+    <None Remove="Aspects\**" />
+    <None Remove="Contexts\**" />
+    <None Remove="Dependency\**" />
+    <None Remove="Domains\**" />
+    <None Remove="Files\**" />
+    <None Remove="Logs\**" />
+    <None Remove="Randoms\**" />
+    <None Remove="Signatures\**" />
+    <None Remove="Validations\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="Extensions.Infrastructure.cs" />
+    <Compile Remove="Helpers\DataConverterHelper.cs" />
+    <Compile Remove="Helpers\Ioc.cs" />
+    <Compile Remove="Offices\Extensions.Service.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="9.0.0" />
+    <PackageReference Include="DotNetCore.NPOI" Version="1.2.2" />
+    <PackageReference Include="Microsoft.Extensions.PlatformAbstractions" Version="1.1.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+    <PackageReference Include="Nito.AsyncEx.Context" Version="5.0.0" />
+    <PackageReference Include="QRCoder" Version="1.3.9" />
+    <PackageReference Include="SharpZipLib" Version="1.2.0" />
+    <PackageReference Include="System.ComponentModel.Annotations" Version="4.7.0" />
+    <PackageReference Include="System.Runtime.Serialization.Primitives" Version="4.3.0" />
+    <PackageReference Include="System.Text.Encoding.CodePages" Version="4.7.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Properties\LibraryResource.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>LibraryResource.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Properties\R.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>R.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Properties\LibraryResource.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>LibraryResource.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Properties\R.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>R.Designer.cs</LastGenOutput>
+    </EmbeddedResource>  
+  </ItemGroup>
+
+</Project>

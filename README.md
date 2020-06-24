@@ -1,2 +1,2 @@
 # PoJun.Util
-通用工具类
+基于https://github.com/dotnetcore/Util的再次个性化封装
