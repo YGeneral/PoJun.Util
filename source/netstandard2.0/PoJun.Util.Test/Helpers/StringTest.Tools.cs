@@ -40,7 +40,7 @@ namespace PoJun.Util.Tests.Helpers {
         [InlineData( "饕餮", "tt" )]
         [InlineData( "爩", "y" )]
         public void TestPinYin( string input, string result ) {
-            Assert.Equal( result, PoJun.Util.Helpers.String.PinYin( input ) );
+            Assert.Equal( result, PoJun.Util.Extensions.PinYin( input ) );
         }
 
         /// <summary>
@@ -56,7 +56,7 @@ namespace PoJun.Util.Tests.Helpers {
         [InlineData( "AB", "aB" )]
         [InlineData( "Abc", "abc" )]
         public void TestFirstLowerCase( string value, string result ) {
-            Assert.Equal( result, PoJun.Util.Helpers.String.FirstLowerCase( value ) );
+            Assert.Equal( result, PoJun.Util.Extensions.FirstLowerCase( value ) );
         }
     }
 }

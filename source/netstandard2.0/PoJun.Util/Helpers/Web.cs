@@ -17,7 +17,6 @@ namespace PoJun.Util.Helpers
     /// </summary>
     public static class Web
     {
-
         #region IP操作
 
         #region Ip(客户端Ip地址)
@@ -103,14 +102,6 @@ namespace PoJun.Util.Helpers
 
         #endregion
 
-
-
-
-
-
-
-
-
         #region URL操作
 
         #region URL添加参数
@@ -187,6 +178,111 @@ namespace PoJun.Util.Helpers
         }
 
         #endregion
+
+        #region 判断url是否是外部地址
+
+        /// <summary>
+        /// 判断url是否是外部地址
+        /// </summary>
+        /// <param name="url"></param>
+        /// <returns></returns>
+        public static bool IsExternalAddress(this string url)
+        {
+            var uri = new Uri(url);
+            switch (uri.HostNameType)
+            {
+                case UriHostNameType.Dns:
+                    var ipHostEntry = Dns.GetHostEntry(uri.DnsSafeHost);
+                    if (ipHostEntry.AddressList.Where(ipAddress => ipAddress.AddressFamily == AddressFamily.InterNetwork).Any(ipAddress => !ipAddress.IsPrivateIP()))
+                    {
+                        return true;
+                    }
+                    break;
+                case UriHostNameType.IPv4:
+                    return !IPAddress.Parse(uri.DnsSafeHost).IsPrivateIP();
+            }
+            return false;
+        }
+
+        #endregion
+
+        #region 判断IP是否是私有地址
+
+        /// <summary>
+        /// 判断IP是否是私有地址
+        /// </summary>
+        /// <param name="myIPAddress"></param>
+        /// <returns></returns>
+        public static bool IsPrivateIP(this IPAddress myIPAddress)
+        {
+            if (IPAddress.IsLoopback(myIPAddress)) return true;
+            if (myIPAddress.AddressFamily == AddressFamily.InterNetwork)
+            {
+                byte[] ipBytes = myIPAddress.GetAddressBytes();
+                // 10.0.0.0/24 
+                if (ipBytes[0] == 10)
+                {
+                    return true;
+                }
+                // 169.254.0.0/16
+                if (ipBytes[0] == 169 && ipBytes[1] == 254)
+                {
+                    return true;
+                }
+                // 172.16.0.0/16
+                if (ipBytes[0] == 172 && ipBytes[1] == 16)
+                {
+                    return true;
+                }
+                // 192.168.0.0/16
+                if (ipBytes[0] == 192 && ipBytes[1] == 168)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// 判断IP是否是私有地址
+        /// </summary>
+        /// <param name="ip"></param>
+        /// <returns></returns>
+        public static bool IsPrivateIP(this string ip)
+        {
+            if (MatchInetAddress(ip))
+            {
+                return IsPrivateIP(IPAddress.Parse(ip));
+            }
+            throw new ArgumentException(ip + "不是一个合法的ip地址");
+        } 
+
+        #endregion
+
+        #region 校验IP地址的合法性
+
+        /// <summary>
+        /// 校验IP地址的正确性，同时支持IPv4和IPv6
+        /// </summary>
+        /// <param name="s">源字符串</param>
+        /// <param name="isMatch">是否匹配成功，若返回true，则会得到一个Match对象，否则为null</param>
+        /// <returns>匹配对象</returns>
+        public static IPAddress MatchInetAddress(this string s, out bool isMatch)
+        {
+            isMatch = IPAddress.TryParse(s, out var ip);
+            return ip;
+        }
+
+        /// <summary>
+        /// 校验IP地址的正确性，同时支持IPv4和IPv6
+        /// </summary>
+        /// <param name="s">源字符串</param>
+        /// <returns>是否匹配成功</returns>
+        public static bool MatchInetAddress(this string s)
+        {
+            MatchInetAddress(s, out var success);
+            return success;
+        }
 
         #endregion
 
@@ -268,6 +364,36 @@ namespace PoJun.Util.Helpers
         public static string UrlDecode(string url, Encoding encoding)
         {
             return HttpUtility.UrlDecode(url, encoding);
+        }
+
+        #endregion
+
+        #endregion
+
+        #region 获取远程服务器内容，并转换成二进制数组
+
+        /// <summary>
+        /// 获取远程服务器内容，并转换成二进制数组
+        /// </summary>
+        /// <param name="url">http://showdoc.ashermed.com/Public/Uploads/2020-06-30/5efaf665458b2.jpg</param>
+        /// <returns></returns>
+        public static byte[] GetUrlByte(string url)
+        {
+            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
+            using (var response = (HttpWebResponse)request.GetResponse())
+            {
+                using (Stream responseStream = response.GetResponseStream())
+                {
+                    List<byte> btlist = new List<byte>();
+                    int b = responseStream.ReadByte();
+                    while (b > -1)
+                    {
+                        btlist.Add((byte)b);
+                        b = responseStream.ReadByte();
+                    }
+                    return btlist.ToArray();
+                }
+            }
         }
 
         #endregion

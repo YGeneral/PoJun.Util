@@ -1,6 +1,7 @@
 ﻿using System;
 
-namespace PoJun.Util.Helpers {
+namespace PoJun.Util.Helpers
+{
     /// <summary>
     /// 时间操作
     /// </summary>
@@ -14,7 +15,7 @@ namespace PoJun.Util.Helpers {
         public static long GetUnixTimestamp()
         {
             return GetUnixTimestamp(DateTime.Now);
-        } 
+        }
 
         #endregion
 
@@ -44,7 +45,7 @@ namespace PoJun.Util.Helpers {
             var start = TimeZoneInfo.ConvertTime(new DateTime(1970, 1, 1), TimeZoneInfo.Local);
             TimeSpan span = new TimeSpan(long.Parse(timestamp + "0000000"));
             return start.Add(span).Add(new TimeSpan(8, 0, 0));
-        } 
+        }
 
         #endregion
 
@@ -204,5 +205,85 @@ namespace PoJun.Util.Helpers {
         }
 
         #endregion
+
+        #region 判断当前年份是否是闰年，私有函数
+
+        /// <summary>
+        /// 判断当前年份是否是闰年，私有函数
+        /// </summary>
+        /// <param name="iYear">年份(例如：2003)</param>
+        /// <returns>是闰年：True ，不是闰年：False</returns>
+        public static bool IsRuYear(int iYear)
+        {
+            //形式参数为年份
+            //例如：2003
+            return iYear % 400 == 0 || iYear % 4 == 0 && iYear % 100 != 0;
+        }
+
+        #endregion
+
+        #region 得到随机日期
+
+        /// <summary>
+        /// 得到随机日期
+        /// </summary>
+        /// <param name="time1">起始日期</param>
+        /// <param name="time2">结束日期</param>
+        /// <returns>间隔日期之间的 随机日期</returns>
+        public static DateTime GetRandomTime(DateTime time1, DateTime time2)
+        {
+            var random = new System.Random();
+            DateTime minTime;
+            var ts = new TimeSpan(time1.Ticks - time2.Ticks);
+            // 获取两个时间相隔的秒数
+            double dTotalSecontds = ts.TotalSeconds;
+            int iTotalSecontds;
+            if (dTotalSecontds > int.MaxValue) iTotalSecontds = int.MaxValue;
+            else if (dTotalSecontds < int.MinValue) iTotalSecontds = int.MinValue;
+            else iTotalSecontds = (int)dTotalSecontds;
+            if (iTotalSecontds > 0)
+            {
+                minTime = time2;
+            }
+            else if (iTotalSecontds < 0)
+            {
+                minTime = time1;
+            }
+            else
+            {
+                return time1;
+            }
+
+            int maxValue = iTotalSecontds;
+            if (iTotalSecontds <= int.MinValue)
+            {
+                maxValue = int.MinValue + 1;
+            }
+
+            int i = random.Next(Math.Abs(maxValue));
+            return minTime.AddSeconds(i);
+        }
+
+        #endregion
+
+        #region 获得一段时间内有多少小时
+
+        /// <summary>
+        /// 获得一段时间内有多少小时
+        /// </summary>
+        /// <param name="dtStar">起始时间</param>
+        /// <param name="dtEnd">终止时间</param>
+        /// <returns>小时差</returns>
+        public static TimeSpan GetTimeDelay(DateTime dtStar, DateTime dtEnd)
+        {
+            long lTicks = (dtEnd.Ticks - dtStar.Ticks) / 10000000;
+            var h = System.Convert.ToInt32((lTicks / 3600).ToString().PadLeft(2, '0'));
+            var m = System.Convert.ToInt32((lTicks % 3600 / 60).ToString().PadLeft(2, '0'));
+            var s = System.Convert.ToInt32((lTicks % 3600 % 60).ToString().PadLeft(2, '0'));
+            return new TimeSpan(h, m, s);
+        }
+
+        #endregion
+
     }
 }

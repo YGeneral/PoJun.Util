@@ -3,19 +3,22 @@ using PoJun.Util.Tests.Samples;
 using PoJun.Util.Tests.XUnitHelpers;
 using Xunit;
 
-namespace PoJun.Util.Tests.Helpers {
+namespace PoJun.Util.Tests.Helpers
+{
     /// <summary>
     /// 测试枚举操作
     /// </summary>
-    public class EnumTest {
+    public class EnumTest
+    {
         /// <summary>
         /// 测试获取枚举实例
         ///</summary>
         [Theory]
-        [InlineData( "C", EnumSample.C )]
-        [InlineData( "3", EnumSample.C )]
-        public void TestParse( string memeber, EnumSample sample ) {
-            Assert.Equal( sample, PoJun.Util.Helpers.Enum.Parse<EnumSample>( memeber ) );
+        [InlineData("C", EnumSample.C)]
+        [InlineData("3", EnumSample.C)]
+        public void TestParse(string memeber, EnumSample sample)
+        {
+            Assert.Equal(sample, PoJun.Util.Helpers.Enum.Parse<EnumSample>(memeber));
         }
 
         ///// <summary>
@@ -32,49 +35,53 @@ namespace PoJun.Util.Tests.Helpers {
         /// 测试获取枚举实例 - 可空枚举
         ///</summary>
         [Theory]
-        [InlineData( null, null )]
-        [InlineData( "", null )]
-        [InlineData( " ", null )]
-        [InlineData( "C", EnumSample.C )]
-        [InlineData( "3", EnumSample.C )]
-        public void TestParse_Nullable( string memeber, EnumSample? sample ) {
-            Assert.Equal( sample, PoJun.Util.Helpers.Enum.Parse<EnumSample?>( memeber ) );
+        [InlineData(null, null)]
+        [InlineData("", null)]
+        [InlineData(" ", null)]
+        [InlineData("C", EnumSample.C)]
+        [InlineData("3", EnumSample.C)]
+        public void TestParse_Nullable(string memeber, EnumSample? sample)
+        {
+            Assert.Equal(sample, PoJun.Util.Helpers.Enum.Parse<EnumSample?>(memeber));
         }
 
         /// <summary>
         /// 测试获取枚举成员名
         ///</summary>
         [Theory]
-        [InlineData( null,"" )]
-        [InlineData( "","" )]
-        [InlineData( " ", " " )]
-        [InlineData( "C", "C" )]
-        [InlineData( 3, "C" )]
-        [InlineData( EnumSample.C, "C" )]
-        public void TestGetName( object member, string name ) {
-            Assert.Equal( name, PoJun.Util.Helpers.Enum.GetName<EnumSample>( member ) );
+        [InlineData(null, "")]
+        [InlineData("", "")]
+        [InlineData(" ", " ")]
+        [InlineData("C", "C")]
+        [InlineData(3, "C")]
+        [InlineData(EnumSample.C, "C")]
+        public void TestGetName(object member, string name)
+        {
+            Assert.Equal(name, PoJun.Util.Helpers.Enum.GetName<EnumSample>(member));
         }
 
         /// <summary>
         /// 测试获取枚举成员名 - 验证传入的枚举参数并非枚举类型
         /// </summary>
         [Fact]
-        public void TestGetName_Validate() {
-            Assert.Equal( string.Empty, PoJun.Util.Helpers.Enum.GetName( typeof( Sample ), 3 ) );
+        public void TestGetName_Validate()
+        {
+            Assert.Equal(string.Empty, PoJun.Util.Helpers.Enum.GetName(typeof(Sample), 3));
         }
 
         /// <summary>
         /// 测试获取枚举成员名 - 可空枚举
         /// </summary>
         [Theory]
-        [InlineData( null, "" )]
-        [InlineData( "", "" )]
-        [InlineData( " ", " " )]
-        [InlineData( "C", "C" )]
-        [InlineData( 3, "C" )]
-        [InlineData( EnumSample.C, "C" )]
-        public void TestGetName_Nullable( object member, string name ) {
-            Assert.Equal( name, PoJun.Util.Helpers.Enum.GetName<EnumSample?>( member ) );
+        [InlineData(null, "")]
+        [InlineData("", "")]
+        [InlineData(" ", " ")]
+        [InlineData("C", "C")]
+        [InlineData(3, "C")]
+        [InlineData(EnumSample.C, "C")]
+        public void TestGetName_Nullable(object member, string name)
+        {
+            Assert.Equal(name, PoJun.Util.Helpers.Enum.GetName<EnumSample?>(member));
         }
 
         ///// <summary>
@@ -91,80 +98,86 @@ namespace PoJun.Util.Tests.Helpers {
         /// 测试获取枚举成员值
         /// </summary>
         [Theory]
-        [InlineData("C",3)]
-        [InlineData( 3, 3 )]
-        [InlineData( EnumSample.C, 3 )]
-        public void TestGetValue( object member, int value ) {
-            Assert.Equal( value, PoJun.Util.Helpers.Enum.GetValue<EnumSample>( member ) );
+        [InlineData("C", 3)]
+        [InlineData(3, 3)]
+        [InlineData(EnumSample.C, 3)]
+        public void TestGetValue(object member, int value)
+        {
+            Assert.Equal(value, PoJun.Util.Helpers.Enum.GetValue<EnumSample>(member));
         }
 
         /// <summary>
         /// 测试获取枚举成员值 - 可空枚举
         /// </summary>
         [Theory]
-        [InlineData( "C", 3 )]
-        [InlineData( 3, 3 )]
-        [InlineData( EnumSample.C, 3 )]
-        public void TestGetValue_Nullable( object member, int value ) {
-            Assert.Equal( value, PoJun.Util.Helpers.Enum.GetValue<EnumSample?>( member ) );
+        [InlineData("C", 3)]
+        [InlineData(3, 3)]
+        [InlineData(EnumSample.C, 3)]
+        public void TestGetValue_Nullable(object member, int value)
+        {
+            Assert.Equal(value, PoJun.Util.Helpers.Enum.GetValue<EnumSample?>(member));
         }
 
         /// <summary>
         /// 测试获取枚举描述
         ///</summary>
         [Theory]
-        [InlineData(null,"")]
-        [InlineData("","")]
-        [InlineData( "A", "A" )]
-        [InlineData( "B", "B2" )]
-        [InlineData( 2, "B2" )]
-        [InlineData( EnumSample.B, "B2" )]
-        public void TestGetDescription(object member,string description) {
-            Assert.Equal( description, PoJun.Util.Helpers.Enum.GetDescription<EnumSample>( member ) );
+        [InlineData(null, "")]
+        [InlineData("", "")]
+        [InlineData("A", "A")]
+        [InlineData("B", "B2")]
+        [InlineData(2, "B2")]
+        [InlineData(EnumSample.B, "B2")]
+        public void TestGetDescription(object member, string description)
+        {
+            Assert.Equal(description, PoJun.Util.Helpers.Enum.GetDescription<EnumSample>(member));
         }
 
         /// <summary>
         /// 测试获取枚举描述 - 可空枚举
         ///</summary>
         [Theory]
-        [InlineData( null, "" )]
-        [InlineData( "", "" )]
-        [InlineData( "A", "A" )]
-        [InlineData( "B", "B2" )]
-        [InlineData( 2, "B2" )]
-        [InlineData( EnumSample.B, "B2" )]
-        public void TestGetDescription_Nullable( object member, string description ) {
-            Assert.Equal( description, PoJun.Util.Helpers.Enum.GetDescription<EnumSample?>( member ) );
+        [InlineData(null, "")]
+        [InlineData("", "")]
+        [InlineData("A", "A")]
+        [InlineData("B", "B2")]
+        [InlineData(2, "B2")]
+        [InlineData(EnumSample.B, "B2")]
+        public void TestGetDescription_Nullable(object member, string description)
+        {
+            Assert.Equal(description, PoJun.Util.Helpers.Enum.GetDescription<EnumSample?>(member));
         }
 
         /// <summary>
         /// 测试获取描述项集合
         /// </summary>
         [Fact]
-        public void TestGetItems() {
+        public void TestGetItems()
+        {
             var items = PoJun.Util.Helpers.Enum.GetItems<EnumSample>();
-            Assert.Equal( 5, items.Count );
-            Assert.Equal( "A", items[0].Text );
-            Assert.Equal( 1, items[0].Value );
-            Assert.Equal( "D4", items[3].Text );
-            Assert.Equal( 4, items[3].Value );
-            Assert.Equal( "E5", items[4].Text );
-            Assert.Equal( 5, items[4].Value );
+            Assert.Equal(5, items.Count);
+            Assert.Equal("A", items[0].Text);
+            Assert.Equal(1, items[0].Value);
+            Assert.Equal("D4", items[3].Text);
+            Assert.Equal(4, items[3].Value);
+            Assert.Equal("E5", items[4].Text);
+            Assert.Equal(5, items[4].Value);
         }
 
         /// <summary>
         /// 测试获取描述项集合 - 可空枚举
         /// </summary>
         [Fact]
-        public void TestGetItems_Nullable() {
+        public void TestGetItems_Nullable()
+        {
             var items = PoJun.Util.Helpers.Enum.GetItems<EnumSample?>();
-            Assert.Equal( 5, items.Count );
-            Assert.Equal( "A", items[0].Text );
-            Assert.Equal( 1, items[0].Value );
-            Assert.Equal( "D4", items[3].Text );
-            Assert.Equal( 4, items[3].Value );
-            Assert.Equal( "E5", items[4].Text );
-            Assert.Equal( 5, items[4].Value );
+            Assert.Equal(5, items.Count);
+            Assert.Equal("A", items[0].Text);
+            Assert.Equal(1, items[0].Value);
+            Assert.Equal("D4", items[3].Text);
+            Assert.Equal(4, items[3].Value);
+            Assert.Equal("E5", items[4].Text);
+            Assert.Equal(5, items[4].Value);
         }
 
         ///// <summary>

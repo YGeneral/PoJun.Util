@@ -13,6 +13,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "net46", "net46", "{31C1CBD9
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PoJun.Util", "net46\PoJun.Util\PoJun.Util.csproj", "{8B291653-E6B2-48BA-9F76-7B5A154386CE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PoJun.Util.TestConsole", "netstandard2.0\PoJun.Util.TestConsole\PoJun.Util.TestConsole.csproj", "{13BD38A9-C53A-4D02-8A18-512FF1E37E02}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -31,6 +33,10 @@ Global
 		{8B291653-E6B2-48BA-9F76-7B5A154386CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8B291653-E6B2-48BA-9F76-7B5A154386CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8B291653-E6B2-48BA-9F76-7B5A154386CE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{13BD38A9-C53A-4D02-8A18-512FF1E37E02}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{13BD38A9-C53A-4D02-8A18-512FF1E37E02}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{13BD38A9-C53A-4D02-8A18-512FF1E37E02}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{13BD38A9-C53A-4D02-8A18-512FF1E37E02}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -39,6 +45,7 @@ Global
 		{250FE946-002F-47EF-A864-59DCB5945193} = {2C54C134-FCE6-4709-BE4D-2E1D86C9C412}
 		{9945C13B-C066-4591-9800-42F82F77191A} = {2C54C134-FCE6-4709-BE4D-2E1D86C9C412}
 		{8B291653-E6B2-48BA-9F76-7B5A154386CE} = {31C1CBD9-5385-4913-9877-E060E44659BD}
+		{13BD38A9-C53A-4D02-8A18-512FF1E37E02} = {2C54C134-FCE6-4709-BE4D-2E1D86C9C412}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {3540140D-2966-4371-92F6-91451CB94020}

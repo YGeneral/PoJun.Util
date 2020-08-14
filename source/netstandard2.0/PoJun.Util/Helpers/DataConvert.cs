@@ -174,7 +174,7 @@ namespace PoJun.Util.Helpers
         public static Dictionary<string, string> ClassToDictionary(T data)
         {
             return Newtonsoft.Json.JsonConvert.DeserializeObject<Dictionary<string, string>>(Newtonsoft.Json.JsonConvert.SerializeObject(data));
-        } 
+        }
 
         #endregion
     }

@@ -1,5 +1,4 @@
-﻿using AutoMapper.Configuration.Annotations;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -30,7 +29,6 @@ namespace PoJun.Util.Test
         /// <summary>
         /// 访视信息集合
         /// </summary>
-        [Ignore]
         public List<VisitEntity> Visits { get; set; }
 
         /// <summary>

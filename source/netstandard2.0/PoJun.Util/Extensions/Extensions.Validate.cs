@@ -1,34 +1,42 @@
 ﻿using PoJun.Util.Helpers;
 using System;
+using System.Linq;
+using System.Net;
+using System.Net.Sockets;
 
-namespace PoJun.Util {
+namespace PoJun.Util
+{
     /// <summary>
     /// 系统扩展 - 验证
     /// </summary>
-    public static partial class Extensions {
+    public static partial class Extensions
+    {
         /// <summary>
         /// 检测对象是否为null,为null则抛出<see cref="ArgumentNullException"/>异常
         /// </summary>
         /// <param name="obj">对象</param>
         /// <param name="parameterName">参数名</param>
-        public static void CheckNull( this object obj, string parameterName ) {
-            if( obj == null )
-                throw new ArgumentNullException( parameterName );
+        public static void CheckNull(this object obj, string parameterName)
+        {
+            if (obj == null)
+                throw new ArgumentNullException(parameterName);
         }
 
         /// <summary>
         /// 是否为空
         /// </summary>
         /// <param name="value">值</param>
-        public static bool IsEmpty( this string value ) {
-            return string.IsNullOrWhiteSpace( value );
+        public static bool IsEmpty(this string value)
+        {
+            return string.IsNullOrWhiteSpace(value);
         }
 
         /// <summary>
         /// 是否为空
         /// </summary>
         /// <param name="value">值</param>
-        public static bool IsEmpty( this Guid value ) {
+        public static bool IsEmpty(this Guid value)
+        {
             return value == Guid.Empty;
         }
 
@@ -36,8 +44,9 @@ namespace PoJun.Util {
         /// 是否为空
         /// </summary>
         /// <param name="value">值</param>
-        public static bool IsEmpty( this Guid? value ) {
-            if ( value == null )
+        public static bool IsEmpty(this Guid? value)
+        {
+            if (value == null)
                 return true;
             return value == Guid.Empty;
         }
@@ -47,7 +56,7 @@ namespace PoJun.Util {
         /// </summary>
         /// <param name="json"></param>
         /// <returns></returns>
-        public static bool IsJson(string json)
+        public static bool IsJson(this string json)
         {
             if (!string.IsNullOrEmpty(json))
             {
@@ -66,7 +75,7 @@ namespace PoJun.Util {
         /// 是否数字
         /// </summary>
         /// <param name="input">输入值</param>        
-        public static bool IsNumber(string input)
+        public static bool IsNumber(this string input)
         {
             if (input.IsEmpty())
                 return false;
@@ -74,36 +83,52 @@ namespace PoJun.Util {
             return Regex.IsMatch(input, pattern);
         }
 
-        #region 验证邮箱
+
+        #region 匹配完整的URL
 
         /// <summary>
-        /// 验证邮箱
+        /// 验证网址(通过正则验证)
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        public static bool IsEmail(string input)
-        {
-            if (input.IsEmpty())
-                return false;
-            const string pattern = @"^[A-Za-z0-9](([_\.\-]?[a-zA-Z0-9]+)*)@([A-Za-z0-9]+)(([\.\-]?[a-zA-Z0-9]+)*)\.([A-Za-z]{2,})$";
-            return Regex.IsMatch(input, pattern);
-        }
-
-        #endregion
-
-        #region 验证网址
-
-        /// <summary>
-        /// 验证网址
-        /// </summary>
-        /// <param name="input"></param>
-        /// <returns></returns>
-        public static bool IsUrl(string input)
+        public static bool IsUrlToRegex(this string input)
         {
             if (input.IsEmpty())
                 return false;
             const string pattern = @"^(((file|gopher|news|nntp|telnet|http|ftp|https|ftps|sftp)://)|(www\.))+(([a-zA-Z0-9\._-]+\.[a-zA-Z]{2,6})|([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}))(/[a-zA-Z0-9\&amp;%_\./-~-]*)?$";
             return Regex.IsMatch(input, pattern);
+        }
+
+        /// <summary>
+        /// 匹配完整格式的URL
+        /// </summary>
+        /// <param name="s">源字符串</param>
+        /// <param name="isMatch">是否匹配成功，若返回true，则会得到一个Match对象，否则为null</param>
+        /// <returns>匹配对象</returns> 
+        public static Uri IsUrl(this string s, out bool isMatch)
+        {
+            try
+            {
+                var uri = new Uri(s);
+                isMatch = Dns.GetHostAddresses(uri.Host).Any(ip => !ip.IsPrivateIP());
+                return uri;
+            }
+            catch
+            {
+                isMatch = false;
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// 匹配完整格式的URL
+        /// </summary>
+        /// <param name="s">源字符串</param>
+        /// <returns>是否匹配成功</returns>
+        public static bool IsUrl(this string s)
+        {
+            IsUrl(s, out var isMatch);
+            return isMatch;
         }
 
         #endregion
@@ -132,19 +157,96 @@ namespace PoJun.Util {
 
         #endregion
 
-        #region 验证IP
+        #region 判断IP是否是私有地址
 
         /// <summary>
-        /// 验证IP
+        /// 判断IP是否是私有地址
+        /// </summary>
+        /// <param name="myIPAddress"></param>
+        /// <returns></returns>
+        public static bool IsPrivateIP(this IPAddress myIPAddress)
+        {
+            if (IPAddress.IsLoopback(myIPAddress)) return true;
+            if (myIPAddress.AddressFamily == AddressFamily.InterNetwork)
+            {
+                byte[] ipBytes = myIPAddress.GetAddressBytes();
+                // 10.0.0.0/24 
+                if (ipBytes[0] == 10)
+                {
+                    return true;
+                }
+                // 169.254.0.0/16
+                if (ipBytes[0] == 169 && ipBytes[1] == 254)
+                {
+                    return true;
+                }
+                // 172.16.0.0/16
+                if (ipBytes[0] == 172 && ipBytes[1] == 16)
+                {
+                    return true;
+                }
+                // 192.168.0.0/16
+                if (ipBytes[0] == 192 && ipBytes[1] == 168)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// 判断IP是否是私有地址
+        /// </summary>
+        /// <param name="ip"></param>
+        /// <returns></returns>
+        public static bool IsPrivateIP(this string ip)
+        {
+            if (IsIP(ip))
+            {
+                return IsPrivateIP(IPAddress.Parse(ip));
+            }
+            //throw new ArgumentException(ip + "不是一个合法的ip地址");
+            return false;
+        }
+
+        #endregion
+
+        #region 校验IP地址的合法性
+
+        /// <summary>
+        /// 验证IP(通过正则验证)
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        public static bool IsIP(string input)
+        public static bool IsIPToRegex(string input)
         {
             if (input.IsEmpty())
                 return false;
             const string pattern = @"^(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9])\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9]|0)\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9]|0)\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[0-9])$";
             return Regex.IsMatch(input, pattern);
+        }
+
+        /// <summary>
+        /// 校验IP地址的正确性，同时支持IPv4和IPv6
+        /// </summary>
+        /// <param name="s">源字符串</param>
+        /// <param name="isMatch">是否匹配成功，若返回true，则会得到一个Match对象，否则为null</param>
+        /// <returns>匹配对象</returns> 
+        public static IPAddress IsIP(this string s, out bool isMatch)
+        {
+            isMatch = IPAddress.TryParse(s, out var ip);
+            return ip;
+        }
+
+        /// <summary>
+        /// 校验IP地址的正确性，同时支持IPv4和IPv6
+        /// </summary>
+        /// <param name="s">源字符串</param>
+        /// <returns>是否匹配成功</returns>
+        public static bool IsIP(this string s)
+        {
+            IsIP(s, out var success);
+            return success;
         }
 
         #endregion
@@ -315,5 +417,7 @@ namespace PoJun.Util {
         }
 
         #endregion
+
+       
     }
 }

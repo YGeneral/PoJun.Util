@@ -1,4 +1,6 @@
-﻿using System;
+﻿using PoJun.Util.Helpers;
+using System;
+using System.Diagnostics;
 using System.Text;
 
 namespace PoJun.Util
@@ -139,6 +141,8 @@ namespace PoJun.Util
             return ToChineseDateTimeString(dateTime.Value, removeSecond);
         }
 
+        #region 获取描述
+
         /// <summary>
         /// 获取描述
         /// </summary>
@@ -160,6 +164,8 @@ namespace PoJun.Util
                 return result.ToString();
             return $"{span.TotalSeconds * 1000}毫秒";
         }
+
+        #endregion
 
         #region 得到指定日期的当月第一天
 
@@ -197,7 +203,7 @@ namespace PoJun.Util
         /// <returns></returns>
         public static int DateTimeToTimeStamp(this System.DateTime time)
         {
-            var startTime = 
+            var startTime =
             System.TimeZoneInfo.ConvertTimeFromUtc(new System.DateTime(1970, 1, 1), TimeZoneInfo.Local);
             return (int)(time - startTime).TotalSeconds;
         }
@@ -212,7 +218,7 @@ namespace PoJun.Util
         /// <returns></returns>
         public static long GetMillisecond(this DateTime dateTime)
         {
-            return Convert.ToInt64(Math.Floor(dateTime.Subtract(new DateTime(1970, 1, 1)).TotalMilliseconds));
+            return System.Convert.ToInt64(Math.Floor(dateTime.Subtract(new DateTime(1970, 1, 1)).TotalMilliseconds));
         }
 
         #endregion
@@ -225,7 +231,237 @@ namespace PoJun.Util
         /// <returns></returns>
         public static long GetDaysNumber(this DateTime dateTime)
         {
-            return Convert.ToInt64(Math.Floor(dateTime.Subtract(new DateTime(1970, 1, 1)).TotalDays));
+            return System.Convert.ToInt64(Math.Floor(dateTime.Subtract(new DateTime(1970, 1, 1)).TotalDays));
+        }
+
+        #endregion
+
+        #region 返回相对于当前时间的相对天数
+
+        /// <summary>
+        /// 返回相对于当前时间的相对天数
+        /// </summary>
+        /// <param name="dt"></param>
+        /// <param name="relativeday">相对天数</param>
+        public static string GetDateTime(this DateTime dt, int relativeday)
+        {
+            return dt.AddDays(relativeday).ToString("yyyy-MM-dd HH:mm:ss");
+        }
+
+        #endregion
+
+        #region 获取该时间相对于1970-01-01 00:00:00的微秒时间戳
+
+        /// <summary>
+        /// 获取该时间相对于1970-01-01 00:00:00的微秒时间戳
+        /// </summary>
+        /// <param name="dt"></param>
+        /// <returns></returns>
+        public static long GetTotalMicroseconds(this DateTime dt) => new DateTimeOffset(dt).Ticks / 10; 
+
+        #endregion
+
+        #region 获取该时间相对于1970-01-01 00:00:00的纳秒时间戳
+
+        /// <summary>
+        /// 获取该时间相对于1970-01-01 00:00:00的纳秒时间戳
+        /// </summary>
+        /// <param name="dt"></param>
+        /// <returns></returns>
+        public static long GetTotalNanoseconds(this DateTime dt) => new DateTimeOffset(dt).Ticks * 100 + Stopwatch.GetTimestamp() % 100;
+
+        #endregion
+
+        #region 获取本年有多少天
+
+        /// <summary>
+        /// 获取本年有多少天
+        /// </summary>
+        /// <param name="_"></param>
+        /// <param name="iYear">年份</param>
+        /// <returns>本年的天数</returns>
+        public static int GetDaysOfYear(this DateTime _, int iYear)
+        {
+            return Time.IsRuYear(iYear) ? 366 : 365;
+        }
+
+        /// <summary>
+        /// 获取本年有多少天
+        /// </summary>
+        /// <param name="dt">日期</param>
+        /// <returns>本天在当年的天数</returns>
+        public static int GetDaysOfYear(this DateTime dt)
+        {
+            //取得传入参数的年份部分，用来判断是否是闰年
+            return Time.IsRuYear(dt.Year) ? 366 : 365;
+        }
+
+        #endregion
+
+        #region 获取本月有多少天
+
+        /// <summary>
+        /// 获取本月有多少天
+        /// </summary>
+        /// <param name="_"></param>
+        /// <param name="iYear">年</param>
+        /// <param name="month">月</param>
+        /// <returns>天数</returns>
+        public static int GetDaysOfMonth(this DateTime _, int iYear, int month)
+        {
+            return month switch
+            {
+                1 => 31,
+                2 => (Time.IsRuYear(iYear) ? 29 : 28),
+                3 => 31,
+                4 => 30,
+                5 => 31,
+                6 => 30,
+                7 => 31,
+                8 => 31,
+                9 => 30,
+                10 => 31,
+                11 => 30,
+                12 => 31,
+                _ => 0
+            };
+        }
+
+        /// <summary>
+        /// 获取本月有多少天
+        /// </summary>
+        /// <param name="dt">日期</param>
+        /// <returns>天数</returns>
+        public static int GetDaysOfMonth(this DateTime dt)
+        {
+            //--利用年月信息，得到当前月的天数信息。
+            return dt.Month switch
+            {
+                1 => 31,
+                2 => (Time.IsRuYear(dt.Year) ? 29 : 28),
+                3 => 31,
+                4 => 30,
+                5 => 31,
+                6 => 30,
+                7 => 31,
+                8 => 31,
+                9 => 30,
+                10 => 31,
+                11 => 30,
+                12 => 31,
+                _ => 0
+            };
+        }
+
+        #endregion
+
+        #region 获取当前日期的星期名称
+
+        /// <summary>
+        /// 获取当前日期的星期名称
+        /// </summary>
+        /// <param name="idt">日期</param>
+        /// <returns>星期名称</returns>
+        public static string GetWeekNameOfDay(this DateTime idt)
+        {
+            return idt.DayOfWeek.ToString() switch
+            {
+                "Mondy" => "星期一",
+                "Tuesday" => "星期二",
+                "Wednesday" => "星期三",
+                "Thursday" => "星期四",
+                "Friday" => "星期五",
+                "Saturday" => "星期六",
+                "Sunday" => "星期日",
+                _ => ""
+            };
+        }
+
+        #endregion
+
+        #region 获取当前日期的星期编号
+
+        /// <summary>
+        /// 获取当前日期的星期编号
+        /// </summary>
+        /// <param name="idt">日期</param>
+        /// <returns>星期数字编号</returns>
+        public static string GetWeekNumberOfDay(this DateTime idt)
+        {
+            return idt.DayOfWeek.ToString() switch
+            {
+                "Mondy" => "1",
+                "Tuesday" => "2",
+                "Wednesday" => "3",
+                "Thursday" => "4",
+                "Friday" => "5",
+                "Saturday" => "6",
+                "Sunday" => "7",
+                _ => ""
+            };
+        }
+
+        #endregion
+
+        #region 得到随机日期
+
+        /// <summary>
+        /// 得到随机日期
+        /// </summary>
+        /// <param name="time1">起始日期</param>
+        /// <param name="time2">结束日期</param>
+        /// <returns>间隔日期之间的 随机日期</returns>
+        public static DateTime GetRandomTime(this DateTime time1, DateTime time2)
+        {
+            var random = new System.Random();
+            DateTime minTime;
+            var ts = new TimeSpan(time1.Ticks - time2.Ticks);
+            // 获取两个时间相隔的秒数
+            double dTotalSecontds = ts.TotalSeconds;
+            int iTotalSecontds;
+            if (dTotalSecontds > int.MaxValue) iTotalSecontds = int.MaxValue;
+            else if (dTotalSecontds < int.MinValue) iTotalSecontds = int.MinValue;
+            else iTotalSecontds = (int)dTotalSecontds;
+            if (iTotalSecontds > 0)
+            {
+                minTime = time2;
+            }
+            else if (iTotalSecontds < 0)
+            {
+                minTime = time1;
+            }
+            else
+            {
+                return time1;
+            }
+
+            int maxValue = iTotalSecontds;
+            if (iTotalSecontds <= int.MinValue)
+            {
+                maxValue = int.MinValue + 1;
+            }
+
+            int i = random.Next(Math.Abs(maxValue));
+            return minTime.AddSeconds(i);
+        }
+
+        #endregion
+
+        #region 获得一段时间内有多少小时
+
+        /// <summary>
+        /// 获得一段时间内有多少小时
+        /// </summary>
+        /// <param name="dtStar">起始时间</param>
+        /// <param name="dtEnd">终止时间</param>
+        /// <returns>小时差</returns>
+        public static TimeSpan GetTimeDelay(this DateTime dtStar, DateTime dtEnd)
+        {
+            long lTicks = (dtEnd.Ticks - dtStar.Ticks) / 10000000;
+            var h = System.Convert.ToInt32((lTicks / 3600).ToString().PadLeft(2, '0'));
+            var m = System.Convert.ToInt32((lTicks % 3600 / 60).ToString().PadLeft(2, '0'));
+            var s = System.Convert.ToInt32((lTicks % 3600 % 60).ToString().PadLeft(2, '0'));
+            return new TimeSpan(h, m, s);
         }
 
         #endregion
