@@ -214,7 +214,7 @@ namespace PoJun.Util.Helpers
 
             PartialDownloaderList[0].To = from - 1;
             WaitOrResumeAll(PartialDownloaderList, false);
-            var temp = new PartialDownloader(_url, TempFileDirectory, Guid.NewGuid().ToString(), from, to, true);
+            var temp = new PartialDownloader(_url, TempFileDirectory, PoJun.Util.Helpers.Id.GetGuidBy32(), from, to, true);
             temp.DownloadPartCompleted += temp_DownloadPartCompleted;
             temp.DownloadPartProgressChanged += temp_DownloadPartProgressChanged;
             PartialDownloaderList.Add(temp);
@@ -314,7 +314,7 @@ namespace PoJun.Util.Helpers
             int start = division * order;
             int end = start + division - 1;
             end += (order == parts - 1) ? remaining : 0;
-            return new PartialDownloader(_url, TempFileDirectory, Guid.NewGuid().ToString(), start, end, true);
+            return new PartialDownloader(_url, TempFileDirectory, PoJun.Util.Helpers.Id.GetGuidBy32(), start, end, true);
         }
 
         /// <summary>
@@ -454,7 +454,7 @@ namespace PoJun.Util.Helpers
                         continue;
                     }
 
-                    var temp = new PartialDownloader(_url, TempFileDirectory, Guid.NewGuid().ToString(), from, to, _rangeAllowed);
+                    var temp = new PartialDownloader(_url, TempFileDirectory, PoJun.Util.Helpers.Id.GetGuidBy32(), from, to, _rangeAllowed);
                     temp.DownloadPartProgressChanged += temp_DownloadPartProgressChanged;
                     temp.DownloadPartCompleted += temp_DownloadPartCompleted;
                     PartialDownloaderList.Add(temp);
