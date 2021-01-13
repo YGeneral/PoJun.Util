@@ -19,6 +19,21 @@ namespace PoJun.Util.Helpers
     {
         #region IP操作
 
+        /// <summary>
+        /// 客户端Ip地址(必须注册MyHttpContext)
+        /// </summary>
+        public static string Ip
+        {
+            get
+            {
+                var list = new[] { "127.0.0.1", "::1" };
+                var result = MyHttpContext.Current?.Connection?.RemoteIpAddress.SafeString();
+                if (string.IsNullOrWhiteSpace(result) || list.Contains(result))
+                    result = GetLanIp();
+                return result;
+            }
+        }
+
         #region Ip(客户端Ip地址)
 
         /// <summary>

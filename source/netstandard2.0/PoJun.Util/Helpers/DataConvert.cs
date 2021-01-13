@@ -167,7 +167,7 @@ namespace PoJun.Util.Helpers
 
         /// <summary>
         /// Class To Dictionary
-        /// 不能转换类里面有字段类型为Class的类型的类
+        /// 不能转换类里面有字段类型为Class的类型、数组、集合的类
         /// </summary>
         /// <param name="data"></param>
         /// <returns></returns>
