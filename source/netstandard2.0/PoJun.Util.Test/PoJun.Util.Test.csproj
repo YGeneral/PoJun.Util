@@ -49,10 +49,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="01-Util.Tests.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Folder Include="Offices\" />
   </ItemGroup>
 
