@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography;
 
-namespace PoJun.Util.Helpers {
+namespace PoJun.Util.Helpers
+{
     /// <summary>
     /// 随机数操作
     /// </summary>
-    public class Random {
-
+    public class Random
+    {
         #region 对集合随机排序
 
         /// <summary>
@@ -31,7 +32,7 @@ namespace PoJun.Util.Helpers {
                 list[index2] = temp;
             }
             return list;
-        } 
+        }
 
         #endregion
 
@@ -44,7 +45,7 @@ namespace PoJun.Util.Helpers {
         /// <summary>
         /// 取随机数
         /// </summary>
-        /// <param name="type">1：纯数字【默认】；2：字母(大写)+数字；2：字母(大写+小写)+数字</param>
+        /// <param name="type">1：纯数字【默认】；2：字母(小写)+数字；3：字母(大写+小写)+数字；4：字母(大写)+数字；</param>
         /// <param name="length">随机数长度</param>
         /// <returns></returns>
         public static string RandomString(int type, int length)
@@ -61,6 +62,9 @@ namespace PoJun.Util.Helpers {
                     break;
                 case 3:
                     constant = new char[capacity62] { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z' };
+                    break;
+                case 4:
+                    constant = new char[capacity36] { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z' };
                     break;
             }
 

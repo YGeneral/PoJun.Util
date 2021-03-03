@@ -30,5 +30,11 @@ namespace PoJun.Util.Webs.Clients
         /// </summary>
         [Description("binary")]
         Binary,
+
+        /// <summary>
+        /// application/xml(StringContent)
+        /// </summary>
+        [Description("application/xml")]
+        Xml,
     }
 }

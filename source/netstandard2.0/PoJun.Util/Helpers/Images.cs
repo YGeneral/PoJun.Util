@@ -14,8 +14,6 @@ namespace PoJun.Util.Helpers
     /// </summary>
     public static class Images
     {
-        
-
         #region 正方型裁剪并缩放
 
         /// <summary>

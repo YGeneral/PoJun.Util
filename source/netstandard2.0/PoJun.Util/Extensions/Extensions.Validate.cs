@@ -23,12 +23,15 @@ namespace PoJun.Util
         }
 
         /// <summary>
-        /// 是否为空
+        /// 是否为空(验证Null、空格、空字符串)
         /// </summary>
         /// <param name="value">值</param>
         public static bool IsEmpty(this string value)
         {
-            return string.IsNullOrWhiteSpace(value);
+            if (string.IsNullOrWhiteSpace(value) || string.IsNullOrEmpty(value))
+                return true;
+            else
+                return false;
         }
 
         /// <summary>
