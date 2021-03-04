@@ -5,14 +5,14 @@
     <PackageTags>util;applicationframework;dotnetcore;aspnetcore;</PackageTags>
     <RootNamespace>PoJun.Util</RootNamespace>
     <Copyright>PoJun</Copyright>
-    <Description></Description>
+    <Description>增加XML序列号和反序列化功能</Description>
     <Product>PoJun.Util</Product>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Authors></Authors>
     <Company></Company>
-    <AssemblyVersion>4.0.6.0</AssemblyVersion>
-    <FileVersion>4.0.6.0</FileVersion>
-    <Version>4.0.6</Version>  
+    <AssemblyVersion>4.0.7.0</AssemblyVersion>
+    <FileVersion>4.0.7.0</FileVersion>
+    <Version>4.0.7</Version>  
     <PackageIconUrl></PackageIconUrl>
     <PackageId>PoJun.Util</PackageId>
     <PackageLicenseUrl></PackageLicenseUrl>
@@ -86,8 +86,8 @@
 
   <ItemGroup>
     <PackageReference Include="DotNetCore.NPOI" Version="1.2.3" />
-    <PackageReference Include="HtmlAgilityPack" Version="1.11.29" />
-    <PackageReference Include="HtmlSanitizer" Version="5.0.372" />
+    <PackageReference Include="HtmlAgilityPack" Version="1.11.31" />
+    <PackageReference Include="HtmlSanitizer" Version="5.0.376" />
     <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
     <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="5.0.0" />
     <PackageReference Include="Microsoft.Extensions.PlatformAbstractions" Version="1.1.0" />
