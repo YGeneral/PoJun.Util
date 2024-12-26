@@ -273,7 +273,7 @@ namespace PoJun.Util.Helpers
         /// <summary>
         /// AES密钥
         /// </summary>
-        public static string AesKey = "QaP1AF8utIarcBqdhYTZpVGbiNQ9M6IL";
+        public static string AesKey = "O5juxssK2FofkwuPVSpEaJs4RhbiexPaV";
 
         /// <summary>
         /// AES加密
